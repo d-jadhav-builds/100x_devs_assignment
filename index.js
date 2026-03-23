@@ -6,9 +6,29 @@ app.use(express.json());
 
 let  todos  = [{ id:1 , task:"go to gym"},  {id:2 , task:"go to gym"}]
 
+let req_data =[]
 
+function middleware(req,res,next){
+  
+   let data = {
+    method:req.method,
+    route  : req.url,
+    url : req.host,
+    Time_stamp:new Date() 
+   }
 
+req_data.push(data);
+next();
 
+}
+
+app.use(middleware);
+
+app.get("/reqdata" , function(req,res){
+   let data  = JSON.stringify(req_data,null ,2)
+   res.json(data);
+
+})
 app.get("/todos" , function (req,res){
   const data   = JSON.stringify(todos);
 
@@ -55,7 +75,7 @@ fs.writeFile('a.txt', jsonString, 'utf8', (err) => {
     if (err) {
         console.error('Error writing to file:', err);
     } else {
-        console.log('Successfully wrote array of objects to output.txt');
+        console.log('Successfully wrote array of objects to a.txt');
     }
 });
 
@@ -88,7 +108,7 @@ fs.writeFile('a.txt', jsonString, 'utf8', (err) => {
     if (err) {
         console.error('Error writing to file:', err);
            } else {
-        console.log('Successfully wrote array of objects to output.txt');
+        console.log('Successfully wrote array of objects to a.txt');
     }
 });
 
@@ -130,7 +150,7 @@ fs.writeFile('a.txt', jsonString, 'utf8', (err) => {
     if (err) {
         console.error('Error writing to file:', err);
                  } else {
-        console.log('Successfully wrote array of objects to output.txt');
+        console.log('Successfully wrote array of objects to a.txt');
     }
 });
 
